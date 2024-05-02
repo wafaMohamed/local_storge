@@ -26,10 +26,10 @@ class NotesDataBase {
 
   // Create the database schema when it doesn't exist
   void _createDB(Database db, int version) async {
-    final String idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-    final String boolType = 'BOOLEAN NOT NULL';
-    final String intType = 'INTEGER NOT NULL';
-    final String textType = 'TEXT NOT NULL';
+    const String idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
+    const String boolType = 'BOOLEAN NOT NULL';
+    const String intType = 'INTEGER NOT NULL';
+    const String textType = 'TEXT NOT NULL';
 
     await db.execute('''
       CREATE TABLE $tableNotes (
@@ -75,6 +75,20 @@ class NotesDataBase {
     } else {
       throw Exception('ID $id not found');
     }
+  }
+
+  // 2-1- Read All notes
+  Future<List<NotesModel>> readAllNotes() async {
+    final Database db = await instanceDb.database;
+    // ASC = ascending
+    final orderBy = "${NoteFields.time} ASC";
+
+    final List<Map<String, Object?>> result =
+        await db.query(tableNotes, orderBy: orderBy);
+
+    return result
+        .map((Map<String, Object?> json) => NotesModel.fromMap(json))
+        .toList();
   }
 
   // Close the database connection
