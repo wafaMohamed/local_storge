@@ -14,7 +14,7 @@ class NoteFields {
   static final String time = 'time';
 }
 
-class NoteModel {
+class NotesModel {
   final int? id;
   final bool isImportant;
   final int number;
@@ -22,7 +22,7 @@ class NoteModel {
   final String description;
   final DateTime createdTime;
 
-  const NoteModel({
+  const NotesModel({
     this.id,
     required this.isImportant,
     required this.number,
@@ -30,6 +30,35 @@ class NoteModel {
     required this.description,
     required this.createdTime,
   });
+
+  NotesModel copy({
+    int? id,
+    bool? isImportant,
+    int? number,
+    String? title,
+    String? description,
+    DateTime? createdTime,
+  }) =>
+      NotesModel(
+          id: id ?? this.id,
+          isImportant: isImportant ?? this.isImportant,
+          number: number ?? this.number,
+          title: title ?? this.title,
+          description: description ?? this.description,
+          createdTime: createdTime ?? this.createdTime);
+
+  // Convert the note to a map for database storage
+  Map<String, Object?> toMap() => {
+        // key: value => key == column name / value == data
+        NoteFields.id: id,
+        // 1:0 == true: false because this how sql understand
+        NoteFields.isImportant: isImportant ? 1 : 0,
+        NoteFields.number: number,
+        NoteFields.title: title,
+        NoteFields.description: description,
+        NoteFields.time:
+            createdTime.toIso8601String(), //2024-05-02T16:51:12.377Z
+      };
 }
 // why we used a model?
 // It clarifies your code by defining the structure of a note.
