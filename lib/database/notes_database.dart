@@ -91,6 +91,13 @@ class NotesDataBase {
         .toList();
   }
 
+  // 3- Update operation: Update a note in the DB
+  Future<int> updateOperation(NotesModel notes) async {
+    final Database db = await instanceDb.database;
+    return db.update(tableNotes, notes.toMap(),
+        where: '${NoteFields.id} = ?', whereArgs: [notes.id]);
+  }
+
   // Close the database connection
   Future<void> close() async {
     final db = await database;
