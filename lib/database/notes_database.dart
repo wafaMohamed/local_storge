@@ -1,3 +1,4 @@
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NotesDataBase {
@@ -26,7 +27,8 @@ class NotesDataBase {
     // store db in our file storage system.
     // if you want to store db in different location use (path_provider) package.
     final String dbPath = await getDatabasesPath();
-    final path = join(dbPath, filePath);
+    // import path library
+    final String path = join(dbPath, filePath);
     // onCreate -> schema
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }

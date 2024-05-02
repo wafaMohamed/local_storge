@@ -1,3 +1,19 @@
+// to store later our note create table
+final String tableNotes = 'notes';
+
+// fields
+class NoteFields {
+  // column names so it will be string
+  // fields names == column names later in our database
+  // in SQL by default the before id _
+  static final String id = '_id';
+  static final String isImportant = 'isImportant';
+  static final String number = 'number';
+  static final String title = 'title';
+  static final String description = 'description';
+  static final String time = 'time';
+}
+
 class NoteModel {
   final int? id;
   final bool isImportant;
