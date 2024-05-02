@@ -6,6 +6,15 @@ class NoteFields {
   // column names so it will be string
   // fields names == column names later in our database
   // in SQL by default the before id _
+  static List<String> values = [
+    // add all fields
+    id,
+    isImportant,
+    number,
+    title,
+    description,
+    time
+  ];
   static final String id = '_id';
   static final String isImportant = 'isImportant';
   static final String number = 'number';
@@ -59,6 +68,15 @@ class NotesModel {
         NoteFields.time:
             createdTime.toIso8601String(), //2024-05-02T16:51:12.377Z
       };
+
+  static NotesModel fromMap(Map<String, Object?> json) => NotesModel(
+        id: json[NoteFields.id] as int?,
+        title: json[NoteFields.title] as String,
+        number: json[NoteFields.number] as int,
+        description: json[NoteFields.description] as String,
+        isImportant: json[NoteFields.isImportant] == 1 ? true : false,
+        createdTime: DateTime.parse(json[NoteFields.time] as String),
+      );
 }
 // why we used a model?
 // It clarifies your code by defining the structure of a note.

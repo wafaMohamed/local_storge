@@ -8,7 +8,7 @@ class NotesDataBase {
   NotesDataBase._();
 
   // Singleton instance for accessing the database
-  static final NotesDataBase instance = NotesDataBase._();
+  static final NotesDataBase instanceDb = NotesDataBase._();
 
   // Database instance
   static Database? _database;
@@ -43,7 +43,7 @@ class NotesDataBase {
     ''');
   }
 
-  // Insert a new note into the database
+  // 1- create operation: Insert a new note into the database
   Future<NotesModel> createOperation(NotesModel notes) async {
     final Database db = await database;
     final List<String> columns = [
@@ -60,6 +60,21 @@ class NotesDataBase {
         "INSERT INTO $tableNotes (${columns.join(', ')}) VALUES (?, ?, ?)",
         values);
     return notes.copy(id: id);
+  }
+
+  // 2- Read operation: Get all notes from the database
+  Future<NotesModel> readNotes(int id) async {
+    final Database db = await instanceDb.database;
+    final List<Map<String, Object?>> map = await db.query(tableNotes,
+        columns: NoteFields.values,
+        // don't put id instead of ? - to be more secure inside whereArgs and if there are more args add more ? and comma after args
+        where: '${NoteFields.id} = ?',
+        whereArgs: [id]);
+    if (map.isNotEmpty) {
+      return NotesModel.fromMap(map.first);
+    } else {
+      throw Exception('ID $id not found');
+    }
   }
 
   // Close the database connection
