@@ -4,7 +4,8 @@ import 'package:local_storge/data/local_database/notes_database.dart';
 import 'package:local_storge/data/model/note_model.dart';
 
 import '../widgets/note_card_widget.dart';
-
+import 'edit_note_page.dart';
+import 'note_details_page.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -40,8 +41,7 @@ class _NotesPageState extends State<NotesPage> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text(
             'Notes',
@@ -53,11 +53,11 @@ class _NotesPageState extends State<NotesPage> {
           child: isLoading
               ? const CircularProgressIndicator()
               : notes.isEmpty
-              ? const Text(
-            'No Notes',
-            style: TextStyle(color: Colors.white, fontSize: 24),
-          )
-              : buildNotes(),
+                  ? const Text(
+                      'No Notes',
+                      style: TextStyle(color: Colors.white, fontSize: 24),
+                    )
+                  : buildNotes(),
         ),
         floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.black,
@@ -72,8 +72,7 @@ class _NotesPageState extends State<NotesPage> {
         ),
       );
 
-  Widget buildNotes() =>
-      StaggeredGrid.count(
+  Widget buildNotes() => StaggeredGrid.count(
         // itemCount: notes.length,
         // staggeredTileBuilder: (index) => StaggeredTile.fit(2),
         crossAxisCount: 2,
@@ -81,7 +80,7 @@ class _NotesPageState extends State<NotesPage> {
         crossAxisSpacing: 2,
         children: List.generate(
           notes.length,
-              (index) {
+          (index) {
             final note = notes[index];
 
             return StaggeredGridTile.fit(
@@ -98,4 +97,6 @@ class _NotesPageState extends State<NotesPage> {
               ),
             );
           },
-        ),);
+        ),
+      );
+}

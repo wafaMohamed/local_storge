@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:local_storge/data/local_database/notes_database.dart';
 import 'package:local_storge/data/model/note_model.dart';
 
+import 'edit_note_page.dart';
+
 class NoteDetailPage extends StatefulWidget {
   final int noteId;
 
