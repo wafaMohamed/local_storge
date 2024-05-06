@@ -22,12 +22,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void initPrefs() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences = await SharedPreferences.getInstance();
     name = sharedPreferences.getString("name");
     setState(() {});
   }
-
-  TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +41,17 @@ class _MyHomePageState extends State<MyHomePage> {
             decoration: InputDecoration(hintText: "Enter Name"),
           ),
           ElevatedButton(
-            onPressed: () {
-              sharedPreferences.setString('name', nameController.text);
-              name = sharedPreferences.getString('name');
+            onPressed: () async {
+              await sharedPreferences.setString('name', nameController.text);
+              name = nameController.text;
               setState(() {});
             },
             child: Text("Save"),
           ),
-          Text("${name ?? "NULL"}"),
+          Text(
+            "${name ?? "NULL"}",
+            style: TextStyle(fontSize: 40),
+          ),
         ],
       ),
     );

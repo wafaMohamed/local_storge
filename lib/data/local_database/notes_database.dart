@@ -1,30 +1,31 @@
-import 'package:local_storge/model/note_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-// Class representing the database and its operations
+import '../model/note_model.dart';
+
+// Class representing the local_database and its operations
 class NotesDataBase {
   // Private constructor to prevent direct instantiation
   NotesDataBase._();
 
-  // Singleton instance for accessing the database
+  // Singleton instance for accessing the local_database
   static final NotesDataBase instanceDb = NotesDataBase._();
 
   // Database instance
   static Database? _database;
 
-  // Open the database (asynchronous for initialization)
+  // Open the local_database (asynchronous for initialization)
   Future<Database> get database async {
     if (_database != null) return _database!; // Return existing instance
 
-    final dbPath = await getDatabasesPath(); // Get database storage path
+    final dbPath = await getDatabasesPath(); // Get local_database storage path
     final path = join(dbPath, 'notes.db'); // Join path with filename
 
     _database = await openDatabase(path, version: 1, onCreate: _createDB);
     return _database!;
   }
 
-  // Create the database schema when it doesn't exist
+  // Create the local_database schema when it doesn't exist
   void _createDB(Database db, int version) async {
     const String idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const String boolType = 'BOOLEAN NOT NULL';
@@ -43,7 +44,7 @@ class NotesDataBase {
     ''');
   }
 
-  // 1- create operation: Insert a new note into the database
+  // 1- create operation: Insert a new note into the local_database
   Future<NotesModel> createOperation(NotesModel notes) async {
     final Database db = await database;
     final List<String> columns = [
@@ -62,7 +63,7 @@ class NotesDataBase {
     return notes.copy(id: id);
   }
 
-  // 2- Read operation: Get all notes from the database
+  // 2- Read operation: Get all notes from the local_database
   Future<NotesModel> readNotes(int id) async {
     final Database db = await instanceDb.database;
     final List<Map<String, Object?>> map = await db.query(tableNotes,
@@ -108,7 +109,7 @@ class NotesDataBase {
     );
   }
 
-  // Close the database connection
+  // Close the local_database connection
   Future<void> close() async {
     final db = await database;
     await db.close();

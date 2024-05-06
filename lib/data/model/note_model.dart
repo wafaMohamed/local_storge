@@ -4,7 +4,7 @@ final String tableNotes = 'notes';
 // fields
 class NoteFields {
   // column names so it will be string
-  // fields names == column names later in our database
+  // fields names == column names later in our local_database
   // in SQL by default the before id _
   static List<String> values = [
     // add all fields
@@ -56,7 +56,7 @@ class NotesModel {
           description: description ?? this.description,
           createdTime: createdTime ?? this.createdTime);
 
-  // Convert the note to a map for database storage
+  // Convert the note to a map for local_database storage
   Map<String, Object?> toMap() => {
         // key: value => key == column name / value == data
         NoteFields.id: id,
